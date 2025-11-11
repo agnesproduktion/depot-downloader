@@ -8,7 +8,7 @@ import helper from './helper.mjs'
 class Downloader extends EventEmitter {
     constructor({outputDirectory, maxServers} = {}) {
         super()
-        this.outputDirectory = outputDirectory || './output'
+        this.outputDirectory = outputDirectory || null
         this.maxServers = maxServers || 2
     }
 
@@ -56,6 +56,7 @@ class Downloader extends EventEmitter {
         this.#manifest = helper.parse(manifestBuffer)
         if (this.#manifest.filenames_encrypted) helper.decryptFilenames(this.#manifest, this.#keyBuffer)
         this.#depotID = String(this.#manifest.depot_id)
+        this.outputDirectory = this.outputDirectory || `./${this.#depotID}`
     }
 
     async #sortFiles() {
@@ -67,7 +68,7 @@ class Downloader extends EventEmitter {
                     .sort((a, b) => Number(a.offset) - Number(b.offset))
                     .map((c) => c.sha)
                 const newItem = {
-                    filepath: path.join(this.outputDirectory, this.#depotID, i.filename).replace(/\\/g, '/'),
+                    filepath: path.join(this.outputDirectory, i.filename).replace(/\\/g, '/'),
                     size: i.size,
                     chunks,
                 }

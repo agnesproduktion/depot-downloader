@@ -10,8 +10,8 @@ program
     .version('0.0.1')
     .requiredOption('--manifest <path>', 'Manifest File Path')
     .requiredOption('--key <key>', 'Decryption Key')
-    .option('--output <dir>', 'Output Directory', './output')
-    .option('--max-servers <num>', 'Max Servers', 2)
+    .option('--output <dir>', 'Output Directory')
+    .option('--max-servers <num>', 'Max Servers')
     .parse()
 
 const { manifest, key, output, maxServers } = program.opts()
