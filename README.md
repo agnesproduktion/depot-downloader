@@ -1,25 +1,49 @@
-# depot-downloader
+# 🚀 depot-downloader
 
-A simple Steam Depot Downloader for Node.js.
-
-This package allows you to Download Game Files from Steam using `Manifest File` and `Decryption Key`.
+A simple **Steam Depot Downloader** written in JavaScript for Node.js and Bun.  
+Download game files directly from Steam depots using a **manifest file** and a **decryption key**.
 
 ---
 
-## Installation
+## 📦 Installation
 
+### Using npm:
 ```sh
-npm install depot-downloader
+npm install -g depot-downloader
 ````
 
+This installs the CLI globally so you can run `depot-downloader` anywhere.
+
 ---
 
-## Usage
+## ⚙️ CLI Usage
+
+Once installed globally, run:
+
+```sh
+depot-downloader --manifest <path-to-manifest> --key <decryption-key>
+```
+
+### Optional flags:
+
+| Flag                  | Description            | Default    |
+| --------------------- | ---------------------- | ---------- |
+| `--output <dir>`      | Output directory       | `./output` |
+| `--max-servers <num>` | Max parallel downloads | `2`        |
+
+---
+
+## 🧩 Library Usage (Programmatic)
+
+You can also use it directly in your JavaScript or Bun project:
 
 ```js
 import { Downloader } from 'depot-downloader'
 
-const downloader = new Downloader()
+const downloader = new Downloader({
+    outputDirectory: './output',
+    maxServers: 2,
+});
 
 downloader.on('progress', console.log)
 downloader.on('finish', console.log)
@@ -27,43 +51,26 @@ downloader.on('error', console.error)
 
 await downloader.downloadDepot({
     manifestFile: './Path/To/File.manifest',
-    decryptionKey: 'DECRYPTION_KEY',
+    decryptionKey: 'YOUR_DEPOT_KEY_IN_HEX',
 })
 ```
 
 ---
 
-## Options
+## 📊 Events
 
-| Name            | Description                  |
-| --------------- | ---------------------------- |
-| `manifestFile`  | Path to the `.manifest` file |
-| `decryptionKey` | Depot key in HEX format      |
-
-Optional constructor settings:
-
-```js
-new Downloader({
-    outputDirectory: './output',
-    maxServers: 2
-});
-```
+| Event      | Description                          |
+| ---------- | ------------------------------------ |
+| `progress` | Called whenever progress updates     |
+| `finish`   | Called when all files are downloaded |
+| `error`    | Called if something goes wrong       |
 
 ---
 
-## Events
+## ❤️ Credits
 
-| Event      | When              |
-| ---------- | ----------------- |
-| `progress` | Download Progress |
-| `finish`   | Download Complete |
-| `error`    | Error Occurred    |
+This project includes code adapted from:
+
+* [DoctorMcKay/node-steam-user](https://github.com/DoctorMcKay/node-steam-user) (MIT License)
 
 ---
-
-## Credits
-
-This Project includes Code from:
-
-- DoctorMcKay/node-steam-user (MIT License)  
-  https://github.com/DoctorMcKay/node-steam-user
